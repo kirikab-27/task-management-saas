@@ -1,272 +1,254 @@
-# 🚀 VIBE Coding Template
+# 🎯 Task Management SaaS
 
-**AI開発用プロジェクトテンプレート**
+**プロフェッショナル向けタスク管理プラットフォーム**
 
-Claude Codeを活用した効率的な開発のためのテンプレートプロジェクトです。過去の知見を活かし、AI アシスタントとの協働開発を最適化します。
+このプロジェクトは、**vibe-coding-template**の検証プロジェクトとして、複雑なモノレポ構成での大規模アプリケーション開発を実践するためのものです。Claude Codeとの協働開発における知見の蓄積と、効率的な開発手法の検証を目的としています。
 
-## 🎯 このテンプレートの特徴
+## 🎯 プロジェクト概要
 
-- **📚 知識の蓄積**: エラーと解決策を `.ai/` ディレクトリで体系的に管理
-- **🔧 Claude Code最適化**: プロジェクト固有の設定ファイルとドキュメント
-- **⚡ 高速な開発開始**: 基本的なReact + TypeScript環境をすぐに利用可能
-- **🎨 VIBE Coding**: 効率的な開発手法のガイドライン
+- **目的**: エンタープライズ向けタスク管理SaaSの構築
+- **特徴**: リアルタイム更新、マルチテナント対応、ロールベースアクセス制御
+- **構成**: Turborepoを使用したモノレポ構成
+- **検証対象**: vibe-coding-templateの実用性と改善点の発見
 
-## 📁 プロジェクト構造
+## 🛠️ 技術スタック
+
+### 🏗️ アーキテクチャ
+- **Turborepo**: モノレポ管理とビルドオーケストレーション
+- **pnpm**: 高速パッケージマネージャー
+- **TypeScript**: 全体の型安全性
+
+### 🎨 フロントエンド
+- **Next.js 14**: App Router対応の最新版
+- **React 18**: Server Components + Client Components
+- **Tailwind CSS**: ユーティリティファーストCSS
+- **Radix UI**: アクセシブルUIコンポーネント
+
+### 🚀 バックエンド
+- **Express.js**: 高速Webフレームワーク
+- **Socket.io**: リアルタイム通信
+- **TypeScript**: 型安全なAPI開発
+
+### 📊 データベース
+- **Prisma**: 次世代ORMとスキーマ管理
+- **PostgreSQL**: エンタープライズグレードのRDB
+
+### 🧪 テスト環境（予定）
+- **Vitest**: 高速テストランナー
+- **Playwright**: E2Eテスト自動化
+
+## 📁 プロジェクト構成
 
 ```
-vibe-coding-template/
-├── .ai/                    # AI開発アシスタント用ドキュメント（重要）
-│   ├── CLAUDE.md          # メインの作業指示書
-│   ├── context.md         # プロジェクトコンテキスト
-│   ├── troubleshooting.md # エラーと解決策
-│   ├── tech-notes.md      # 技術的決定事項
-│   ├── lessons-learned.md # 学習した知識
-│   └── journal/           # 開発記録
-├── .claude/               # Claude Code設定
-│   └── settings.json      # プロジェクト固有設定
-├── src/                   # アプリケーションソース
-│   ├── App.tsx           # メインコンポーネント
-│   └── main.tsx          # エントリーポイント
-├── VIBE_GUIDE.md         # VIBE Codingガイド
-└── README.md             # このファイル
+task-management-saas/
+├── apps/
+│   ├── web/                    # Next.js 14 フロントエンド
+│   │   ├── app/               # App Router構成
+│   │   ├── components/        # Reactコンポーネント
+│   │   └── package.json       # Web固有の依存関係
+│   └── api/                    # Express バックエンド
+│       ├── src/               # APIソースコード
+│       ├── routes/            # APIエンドポイント
+│       └── package.json       # API固有の依存関係
+├── packages/
+│   ├── ui/                     # 共有UIコンポーネント
+│   │   ├── src/components/    # Radix UI + Tailwindコンポーネント
+│   │   └── tailwind.config.ts # 共有Tailwind設定
+│   ├── database/               # Prismaデータベース設定
+│   │   ├── prisma/schema.prisma # データベーススキーマ
+│   │   └── index.ts           # Prisma Client エクスポート
+│   └── shared/                 # 共有型定義・ユーティリティ
+│       ├── types/             # TypeScript型定義
+│       └── utils/             # 共通ユーティリティ関数
+├── turbo.json                  # Turborepo設定
+├── pnpm-workspace.yaml         # pnpm workspace設定
+└── .ai/                        # AI開発支援ドキュメント
 ```
 
-## 🚀 使い方
+## 🚀 セットアップ手順
 
-### 1. テンプレートのコピー
+### 1. 依存関係のインストール
 
 ```bash
-# このテンプレートをコピー
-cp -r vibe-coding-template my-new-project
-cd my-new-project
+# pnpmをグローバルインストール（未インストールの場合）
+npm install -g pnpm
 
-# Git初期化（オプション）
-git init
+# プロジェクトの依存関係をインストール
+pnpm install
 ```
 
-### 2. 知識管理システムの初期化
+### 2. PostgreSQLの設定
 
 ```bash
-npm run setup:knowledge
+# PostgreSQLを起動（Dockerを使用する場合）
+docker run --name task-management-db \
+  -e POSTGRES_USER=user \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=taskmanagement \
+  -p 5432:5432 -d postgres:15
+
+# または、ローカルのPostgreSQLを使用
+createdb taskmanagement
 ```
 
-### 3. プロジェクト情報の更新
-
-**重要**: 以下のファイルを必ず更新してください
-
-#### `.ai/context.md`
-```markdown
-- 名前: [あなたのプロジェクト名]
-- 目的: [プロジェクトの目的]
-- 技術スタック: [使用する技術]
-```
-
-#### `.ai/CLAUDE.md`
-- STEP7以降のプロジェクト固有の技術情報を更新
-- 使用するライブラリやフレームワークに合わせて調整
-
-#### `package.json`
-```json
-{
-  "name": "your-project-name",
-  "description": "your project description"
-}
-```
-
-### 4. 依存関係のインストール
+### 3. 環境変数の設定
 
 ```bash
-npm install
+# ルートディレクトリに.envファイルを作成
+cp .env.example .env
+
+# 必要な環境変数を設定
+DATABASE_URL="postgresql://user:password@localhost:5432/taskmanagement"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key-here"
 ```
 
-### 5. 開発開始
+### 4. データベースのセットアップ
 
 ```bash
-# 開発サーバー起動
-npm run dev
+# Prisma Clientの生成
+pnpm turbo db:generate
 
-# Claude Code セッション開始
-claude
+# データベーススキーマの適用
+pnpm turbo db:push
 ```
 
-## 📖 重要なファイルの説明
+### 5. 開発サーバーの起動
 
-### `.ai/` ディレクトリ（最重要）
-
-このディレクトリは**高度なAI知識管理システム**のコアです：
-
-### 知識管理システム v2.1
-- **共有知識**: ~/.vibe-knowledge に全プロジェクトの知識を集約
-- **ローカル知識**: current-local/ にプロジェクト固有の知識
-- **自動共有**: どのプロジェクトで得た知見も即座に全体で利用可能
-
-初期セットアップ：
 ```bash
-node .ai/scripts/setup-knowledge-sharing.js
+# 全体の開発サーバーを起動
+pnpm dev
+
+# または個別に起動
+pnpm --filter=@task-management/web dev  # フロントエンド: http://localhost:3000
+pnpm --filter=@task-management/api dev  # バックエンド: http://localhost:3001
 ```
 
-#### 🧠 知識管理システム構造
-```
-.ai/knowledge/
-├── current-local/        # プロジェクト固有の知識
-│   ├── troubleshooting.md    # 構造化された問題・解決策（ID付き）
-│   ├── tech-notes.md         # 技術的決定事項（ID付き）
-│   └── lessons-learned.md    # パターン・ベストプラクティス（ID付き）
-├── shared/              # 全プロジェクト共有知識（シンボリックリンク）
-├── shared-index.json    # 共有知識インデックス（シンボリックリンク）
-├── index.json           # 検索可能なメタデータ
-├── knowledge-graph.json # 知識間の関係性マッピング
-├── archive/            # 月別アーカイブ
-└── scripts/            # 知識管理ユーティリティ
-```
+## 📈 開発状況
 
-#### 🎯 主要な機能
-- **構造化された知識**: 各エントリーに一意ID（k001、k002...）
-- **関係性マッピング**: 知識グラフで問題→解決策→パターンを関連付け
-- **コンテキスト検索**: 開発状況に応じた知識の自動発見
-- **バージョン管理**: 技術スタックバージョンとの互換性管理
-- **自動化ツール**: CLI経由での知識検索・管理
+### ✅ 実装済み機能
 
-#### 🛠️ 知識管理ツール
-```bash
-# 知識検索
-node .ai/scripts/knowledge-manager.cjs search "typescript generics"
+- **モノレポ基盤**: Turborepo + pnpm workspace構成
+- **フロントエンド基盤**: Next.js 14 App Router + Tailwind CSS
+- **バックエンド基盤**: Express + Socket.io + TypeScript
+- **データベース基盤**: Prisma + PostgreSQL スキーマ設計
+- **共有パッケージ**: UI、Database、Shared型定義
+- **開発環境**: 型チェック、Linting、フォーマット設定
 
-# 関連知識の探索  
-node .ai/scripts/knowledge-manager.cjs related k007
+### 🚧 開発中の機能
 
-# 新エントリー作成
-node .ai/scripts/knowledge-manager.cjs add-entry problem
+- **認証システム**: NextAuth.js v5統合
+- **リアルタイム機能**: Socket.ioの詳細実装
+- **UI コンポーネント**: Radix UIベースの共有コンポーネント拡充
 
-# 整合性チェック
-node .ai/scripts/knowledge-manager.cjs validate
-```
+### 📋 今後の予定
 
-#### 📊 現在の知識ベース
-- **30+ 構造化エントリー**: 問題、解決策、パターン、技術決定
-- **10+ 関係性**: 知識グラフでの相互関連
-- **6つのコンテキストパターン**: AI の文脈理解用
-- **バージョン対応**: React、TypeScript、Vite等の互換性情報
-
-### `.claude/settings.json`
-
-Claude Code の プロジェクト固有設定：
-
-```json
-{
-  "permissions": {
-    "allowedDirectories": ["src", "public", "docs", ".ai"],
-    "allowedCommands": ["npm", "npx", "git", "node"],
-    "requireApproval": ["rm", "sudo"]
-  }
-}
-```
-
-## 🎨 VIBE Coding とは
-
-**VIBE** = **V**elocity（速度）**I**nsight（洞察）**B**alance（バランス）**E**fficiency（効率）
-
-効率的なAI協働開発のための手法です。詳細は `VIBE_GUIDE.md` を参照してください。
-
-## 📚 実装例
-
-具体的な実装例として、以下のプロジェクトを参照できます：
-
-- **markdown-memo-app**: マークダウンメモアプリの実装例
-  - React + TypeScript + Vite
-  - マークダウンプレビュー機能
-  - ローカルストレージでの永続化
+- **ユーザー管理**: 登録、ログイン、プロフィール管理
+- **ワークスペース**: マルチテナント対応
+- **タスク管理**: CRUD操作、ステータス管理、優先度設定
+- **プロジェクト管理**: プロジェクト作成、メンバー管理
+- **リアルタイム更新**: タスク状態の即座の反映
+- **ロールベースアクセス**: Owner、Admin、Member、Viewer権限
+- **通知システム**: リアルタイム通知とメール通知
+- **ダッシュボード**: アナリティクスと進捗可視化
+- **API設計**: REST API + GraphQL検討
+- **テスト**: Unit、Integration、E2Eテストの実装
 
 ## 🔧 開発コマンド
 
+### 全体操作
 ```bash
-# 開発サーバー起動
-npm run dev
+# 全体ビルド
+pnpm build
 
-# ビルド
-npm run build
+# 全体開発サーバー起動
+pnpm dev
 
-# Lint チェック
-npm run lint
+# 全体Lint実行
+pnpm lint
 
-# プレビュー
-npm run preview
+# 全体フォーマット
+pnpm format
 ```
 
-## 🤖 Claude Code との協働
-
-### 基本的な使い方
-
+### パッケージ別操作
 ```bash
-# Claude Code セッション開始
-claude
+# Web アプリのみ起動
+pnpm --filter=@task-management/web dev
 
-# メモリファイル編集
-claude -p \"/memory\"
+# API サーバーのみ起動  
+pnpm --filter=@task-management/api dev
 
-# 設定確認
-claude -p \"/config\"
+# 特定パッケージのビルド
+pnpm --filter=@task-management/ui build
 ```
 
-### 効果的な使い方
+### データベース操作
+```bash
+# Prisma Client生成
+pnpm turbo db:generate
 
-1. **開発開始時**: まず `.ai/CLAUDE.md` を読ませる
-2. **エラー発生時**: `troubleshooting.md` で既知の問題を確認
-3. **新機能追加時**: `tech-notes.md` で技術方針を確認
-4. **解決後**: 必ず知見を該当ファイルに記録
+# データベースにスキーマをプッシュ
+pnpm turbo db:push
 
-## 🎯 このテンプレートの利点
+# マイグレーション作成・適用
+pnpm turbo db:migrate
 
-### 🚀 高速な立ち上げ
-- 環境構築の手順が明確
-- よくあるエラーの解決策が蓄積済み
-- Claude Code の設定が最適化済み
+# Prisma Studio起動
+pnpm --filter=@task-management/database db:studio
+```
 
-### 📚 知識の継承
-- 過去のエラーと解決策を参照可能
-- 技術的決定の理由が記録済み
-- 新しいAIアシスタントでも一貫した開発が可能
+## 🧪 vibe-coding-templateとの関係
 
-### 🔄 継続的改善
-- 開発中に得た知見を体系的に蓄積
-- プロジェクト固有の知識ベースを構築
-- 同様のプロジェクトで知見を再利用
+### このプロジェクトの目的
 
-## 🌟 推奨ワークフロー
+1. **実用性検証**: 複雑なモノレポ構成でのvibe-coding-templateの効果測定
+2. **スケーラビリティ検証**: 大規模アプリケーション開発での適用可能性
+3. **知識蓄積**: 実開発で得られた知見の体系的な収集
+4. **改善点発見**: テンプレートの不足部分や改善点の特定
 
-1. **プロジェクト開始**
-   ```bash
-   # テンプレートコピー
-   cp -r vibe-coding-template my-project
-   cd my-project
-   
-   # 共有知識システムセットアップ
-   npm run setup:knowledge
-   
-   # Claude Code で設定確認
-   claude -p \"/config\"
-   ```
+### 発見した課題と改善点
 
-2. **開発フェーズ**
-   ```bash
-   # Claude Code セッション開始
-   claude
-   
-   # メモリファイル（CLAUDE.md）を読ませる
-   # 新機能の実装指示
-   # エラーが発生したら即座に記録
-   ```
+#### 🔍 現在の発見事項
 
-3. **知見の蓄積**
-   - エラー解決後は `troubleshooting.md` に記録
-   - 技術選択の理由は `tech-notes.md` に記録
-   - 重要な学びは `lessons-learned.md` に記録
+**良かった点:**
+- `.ai/`ディレクトリによる知識管理システムの有効性
+- Claude Codeとの協働開発における作業効率の向上
+- 構造化されたドキュメントによるコンテキスト維持
+
+**改善が必要な点:**
+- モノレポ構成に特化したガイドラインの不足
+- 複数パッケージ間の依存関係管理の複雑さ
+- 大規模プロジェクトでの知識管理スケーリングの課題
+
+**今後のテンプレート改善提案:**
+- モノレポテンプレートの追加
+- パッケージ間設計パターンのドキュメント化
+- 大規模プロジェクト用の知識管理フロー
+
+### 知見の記録場所
+
+プロジェクト進行中に得られた知見は以下に蓄積しています：
+
+- `.ai/troubleshooting.md`: 技術的問題と解決策
+- `.ai/tech-notes.md`: 技術選択の理由と決定事項  
+- `.ai/lessons-learned.md`: 開発パターンとベストプラクティス
+- `.ai/journal/`: 日次開発記録
+
+## 🤝 コントリビューション
+
+このプロジェクトは実験的なものですが、以下の点で貢献いただけます：
+
+1. **バグ報告**: Issues での不具合報告
+2. **機能提案**: 新機能や改善のアイデア
+3. **知見共有**: vibe-coding-templateの使用体験
+4. **ドキュメント改善**: READMEや`.ai/`ドキュメントの改善
 
 ## 📞 サポート
 
-- **VIBE Coding手法**: `VIBE_GUIDE.md` を参照
-- **Claude Code公式ドキュメント**: https://docs.anthropic.com/ja/docs/claude-code/overview
-- **トラブルシューティング**: `.ai/troubleshooting.md` を確認
+- **プロジェクト固有の問題**: `.ai/troubleshooting.md`を確認
+- **vibe-coding-template**: ベーステンプレートのドキュメント参照
+- **技術的質問**: Issuesでお気軽にご質問ください
 
 ## 📝 ライセンス
 
@@ -274,6 +256,6 @@ MIT License - 自由に使用・改変してください
 
 ---
 
-**🎉 Happy Coding with AI! 🤖**
+**🚀 Enterprise-Grade Task Management with Modern Tech Stack! 📋**
 
-このテンプレートを使って、効率的なAI協働開発を体験してください。
+このプロジェクトを通じて、vibe-coding-templateの実用性を検証し、より良いAI協働開発環境の構築を目指しています。
